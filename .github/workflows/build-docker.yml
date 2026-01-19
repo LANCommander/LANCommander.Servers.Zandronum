@@ -58,9 +58,9 @@ jobs:
 
             # Default image name for tag builds:
             # Set this to your preferred repo, or replace with a repo secret if you prefer.
-            IMAGE_NAME="${{ secrets.DOCKERHUB_IMAGE_NAME }}"
+            IMAGE_NAME="${{ vars.DOCKERHUB_IMAGE_NAME }}"
             if [[ -z "${IMAGE_NAME}" ]]; then
-              echo "DOCKERHUB_IMAGE_NAME secret is not set. Create it (e.g., 'lancommander/zandronum') or use workflow_dispatch."
+              echo "DOCKERHUB_IMAGE_NAME variable is not set. Create it (e.g., 'lancommander/zandronum') or use workflow_dispatch."
               exit 1
             fi
 
