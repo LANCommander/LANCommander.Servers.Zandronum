@@ -10,7 +10,6 @@ The image is designed for **headless operation**, supports bind-mounted WADs and
 - Runs the **Zandronum dedicated server** (`zandronum-server`)
 - Automatically creates a minimal `server.ini` if none exists
 - Optionally downloads and extracts WAD/PK3 archives from URLs at startup
-- Non-root runtime using `gosu`
 - Automated build & push via GitHub Actions
 
 ## Docker Compose Example
@@ -35,8 +34,7 @@ services:
       #   https://example.com/gameplay.pk3
 
       # Optional overrides
-      # SERVER_PORT: 10666
-      # SERVER_CONFIG: /config/server.ini
+      # SERVER_CONFIG: /config/Overlay/server.ini
       # SERVER_ARGS: '+map map01 +sv_hostname "My Zandronum Server"'
 
     # Ensure container restarts if the server crashes or host reboots
@@ -61,7 +59,7 @@ Both directories **must be writable** by Docker.
 
 ## Configuration
 
-If `/config/server.ini` does not exist, the container will generate a minimal default on first startup.
+If `/config/Overlay/server.ini` does not exist, the container will generate a minimal default on first startup.
 
 An `autoexec.cfg` file can also be created for adjusting server settings.
 Example:
@@ -78,9 +76,6 @@ set sv_teamplay 0
 All gameplay rules, cvars, maps, and RCON settings should live here.
 
 ## Supported Content Types
-
-All matching files in `/config` are automatically loaded at startup and passed to Zandronum using `-file` arguments.
-
 Supported file types:
 
 - `.wad`
@@ -97,8 +92,7 @@ Archives provided via `EXTRA_WAD_URLS` are extracted into `/config` before start
 
 | Variable | Description | Default |
 |--------|-------------|---------|
-| `SERVER_PORT` | UDP port the server listens on | `10666` |
-| `SERVER_CONFIG` | Path to the server configuration file | `/config/server.ini` |
+| `SERVER_CONFIG` | Path to the server configuration file | `/config/Overlay/server.ini` |
 | `EXTRA_WAD_URLS` | URLs to download and extract into `/config` at startup | *(empty)* |
 | `SERVER_ARGS` | Additional Zandronum command-line arguments (advanced) | *(empty)* |
 
@@ -118,8 +112,7 @@ Archives are extracted into /wads. Single files are copied as-is.
 ## Running the Server
 ### Basic run (recommended)
 ```bash
-mkdir -p config wads
-chmod -R 777 config wads
+mkdir -p config
 
 docker run --rm -it \
   -p 10666:10666/udp \
@@ -135,7 +128,6 @@ docker run --rm -it \
 
 ## Ports
 - **UDP 10666** – default Zandronum server port
-(Additional ports may be used if auto-incrementing)
 
 ## License
 Zandronum is distributed under its own license.
