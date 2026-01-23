@@ -11,7 +11,8 @@ ENV EXTRA_WAD_URLS=""
 # Server settings
 ENV SERVER_ARCH="x86_64"
 
-ENV START_CMD="zandronum-server -iwad DOOM2.WAD -config server.ini"
+ENV START_EXE="zandronum-server"
+ENV START_ARGS="-iwad DOOM2.WAD -config server.ini"
 
 # ----------------------------
 # Dependencies
